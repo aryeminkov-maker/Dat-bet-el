@@ -22,7 +22,8 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#eceae4;--surface:#fff;--border:#ccc;--text:#1a1a1a;--text2:#555;--muted:#888;--radius:6px}
-body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;direction:rtl}
+html{overflow-x:hidden}
+body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;direction:rtl;overflow-x:hidden}
 header{background:#fff;border-bottom:1px solid var(--border);padding:8px 12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 header h1{font-family:'David','David Libre','Rubik',sans-serif;font-size:17px;font-weight:700}
 header p{font-size:12px;color:var(--muted);margin-right:auto}
@@ -40,8 +41,8 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .err-msg{font-size:11px;color:#c0392b;margin-top:3px;display:none}
 .heb-preview{font-size:12px;color:#1a6b3c;margin-top:3px;min-height:15px;font-family:'David','David Libre','Rubik',sans-serif;font-weight:500}
-.preview-panel{background:#c8c5bc;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px;overflow:auto}
-.obit-scaler{width:1122px;height:793px;transform-origin:top center;transform:scale(.75);margin-bottom:calc(793px * .75 - 793px)}
+.preview-panel{background:#c8c5bc;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:16px;padding:20px;overflow:hidden}
+.obit-scaler{width:1122px;height:793px;transform-origin:top center;display:block;flex-shrink:0}
 .obit{width:1122px;height:793px;background:#fff;border:20px solid #000;font-family:'David','David Libre','Rubik',sans-serif;color:#000;direction:rtl;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;padding:28px 56px 70px;gap:0}
 .obit::after{}
 #tpl1-preview,#tpl2-preview,#tpl3-preview{width:100%;display:flex;flex-direction:column;align-items:center;text-align:center;flex:1}
@@ -554,6 +555,33 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
 </div>
 </div>
 
+<!-- WELCOME MODAL -->
+<div class="cal-overlay" id="welcome-overlay" onclick="if(event.target===this)closeWelcome()" role="dialog" aria-modal="true" aria-label="ברוכים הבאים">
+  <div class="cal-box" style="width:380px">
+    <div class="cal-header" style="background:#1a1a1a">
+      <span></span>
+      <h3 style="font-size:15px">יוצר מודעת אבל</h3>
+      <span></span>
+    </div>
+    <div style="padding:24px 22px;direction:rtl;font-family:'Heebo',sans-serif;text-align:center">
+      <div style="font-size:36px;margin-bottom:12px">📋</div>
+      <p style="font-size:15px;color:#222;line-height:1.7;margin-bottom:20px">
+        יוצר מודעות האבל נועד <strong>לשימוש עצמי</strong>.<br><br>
+        תושבי בית אל שמעוניינים בפרסום מודעה בישוב דרך מחלקת דת — יש ליצור קשר עם המחלקה.<br>
+        <span style="font-size:13px;color:#666">פרטי יצירת הקשר בכפתור <strong>מידע</strong> למעלה.</span>
+      </p>
+      <button onclick="closeWelcome()" class="cal-fbtn primary" style="width:100%;padding:10px;font-size:15px;font-family:'Heebo',sans-serif"
+        aria-label="הבנתי, סגור חלון">
+        הבנתי ✓
+      </button>
+      <label style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;font-size:13px;color:#666;cursor:pointer">
+        <input type="checkbox" id="welcome-no-show" style="width:16px;height:16px;cursor:pointer">
+        אל תציג שוב
+      </label>
+    </div>
+  </div>
+</div>
+
 <!-- SAVED NOTICES MODAL -->
 <div class="cal-overlay" id="saved-overlay" role="dialog" aria-modal="true" aria-label="מודעות שמורות" onclick="if(event.target===this)closeSaved()">
   <div class="cal-box" style="width:380px;max-height:80vh;display:flex;flex-direction:column">
@@ -808,82 +836,18 @@ function confirmCal(){
   var label=HD[h.day]+' '+HN[h.month]+' '+hYS(h.year);
   if(CAL_TARGET==='sym'){
     document.getElementById('sym-funeral-date').value=ds;
-    document.getElementById('sym-funeral-date-greg').value=ds;
     document.getElementById('sym-cal-trigger').textContent=label;
   } else if(CAL_TARGET==='res'){
     document.getElementById('res-funeral-date').value=ds;
-    document.getElementById('res-funeral-date-greg').value=ds;
     document.getElementById('res-cal-trigger').textContent=label;
   } else {
     document.getElementById('funeral-date').value=ds;
-    document.getElementById('funeral-date-greg').value=ds;
     document.getElementById('cal-trigger').textContent=label;
   }
   closeCal();update();}
 
 /* ── DATE MODE TOGGLE: Hebrew picker <-> Gregorian input ── */
-function setDateMode(mode){
-  var btnHeb=document.getElementById('dmt-heb');
-  var btnGreg=document.getElementById('dmt-greg');
-  var calTrigger=document.getElementById('cal-trigger');
-  var gregInput=document.getElementById('funeral-date-greg');
-  if(mode==='heb'){
-    btnHeb.classList.add('active');btnGreg.classList.remove('active');
-    calTrigger.style.display='';gregInput.style.display='none';
-  } else {
-    btnGreg.classList.add('active');btnHeb.classList.remove('active');
-    calTrigger.style.display='none';gregInput.style.display='';
-  }
-}
-function syncFromGreg(){
-  var ds=document.getElementById('funeral-date-greg').value;
-  document.getElementById('funeral-date').value=ds;
-  if(ds){
-    var p=ds.split('-');
-    var f=fG(+p[0],+p[1],+p[2]);
-    var h=g2h(f);
-    document.getElementById('cal-trigger').textContent=HD[h.day]+' '+HN[h.month]+' '+hYS(h.year);
-  }
-  update();
-}
-
-function setSymDateMode(mode){
-  var btnHeb=document.getElementById('sym-dmt-heb');
-  var btnGreg=document.getElementById('sym-dmt-greg');
-  var calTrigger=document.getElementById('sym-cal-trigger');
-  var gregInput=document.getElementById('sym-funeral-date-greg');
-  if(mode==='heb'){
-    btnHeb.classList.add('active');btnGreg.classList.remove('active');
-    calTrigger.style.display='';gregInput.style.display='none';
-  } else {
-    btnGreg.classList.add('active');btnHeb.classList.remove('active');
-    calTrigger.style.display='none';gregInput.style.display='';
-  }
-}
-function symSyncFromGreg(){
-  var ds=document.getElementById('sym-funeral-date-greg').value;
-  document.getElementById('sym-funeral-date').value=ds;
-  if(ds){
-    var p=ds.split('-');
-    var f=fG(+p[0],+p[1],+p[2]);
-    var h=g2h(f);
-    document.getElementById('sym-cal-trigger').textContent=HD[h.day]+' '+HN[h.month]+' '+hYS(h.year);
-  }
-  update();
-}
-
-function setResDateMode(mode){
-  var heb=v('res-dmt-heb'),greg=v('res-dmt-greg'),trig=v('res-cal-trigger'),inp=v('res-funeral-date-greg');
-  if(mode==='heb'){heb.classList.add('active');greg.classList.remove('active');trig.style.display='';inp.style.display='none';}
-  else{greg.classList.add('active');heb.classList.remove('active');trig.style.display='none';inp.style.display='';}
-}
 function openResCal(){openCal('res');}
-function resSyncFromGreg(){
-  var ds=v('res-funeral-date-greg').value;
-  v('res-funeral-date').value=ds;
-  if(ds){var p=ds.split('-'),f=fG(+p[0],+p[1],+p[2]),h=g2h(f);v('res-cal-trigger').textContent=HD[h.day]+' '+HN[h.month]+' '+hYS(h.year);}
-  update();
-}
 function handleResLocSel(){
   var sel=v('res-funeral-loc-sel'),cust=v('res-funeral-loc-custom');
   if(sel&&cust)cust.style.display=sel.value==='custom'?'':'none';
@@ -1084,10 +1048,10 @@ function restoreDraft(){
       });
     }
     /* Fix 3: update calendar trigger buttons with saved dates */
-    ['','sym-','res-'].forEach(function(pfx){
-      var ds=d.fields&&d.fields[pfx+'funeral-date'];
-      var trigId=pfx?pfx+'cal-trigger':'cal-trigger';
-      var trig=v(trigId);
+    /* Update cal-trigger button text with saved dates */
+    [['','cal-trigger'],['sym-','sym-cal-trigger'],['res-','res-cal-trigger']].forEach(function(pair){
+      var ds=d.fields&&d.fields[pair[0]+'funeral-date'];
+      var trig=v(pair[1]);
       if(ds&&trig){
         var p=ds.split('-'),f=fG(+p[0],+p[1],+p[2]),h=g2h(f);
         trig.textContent=HD[h.day]+' '+HN[h.month]+' '+hYS(h.year);
@@ -1100,6 +1064,10 @@ function restoreDraft(){
     /* Also re-open custom opening/relation fields */
     if(v('opening')&&v('opening').value==='custom')v('custom-field').style.display='';
     if(v('publisher-sel')&&v('publisher-sel').value==='custom')v('publisher-custom').style.display='';
+    if(v('sym-solidarity-sel')&&v('sym-solidarity-sel').value==='custom'){var sc=v('sym-solidarity-custom');if(sc)sc.style.display='';}
+    handleLocSel();
+    handleSymLocSel();
+    handleResLocSel();
     if(v('sym-opening')&&v('sym-opening').value==='custom')v('sym-custom-field').style.display='';
     if(v('res-opening')&&v('res-opening').value==='custom')v('res-custom-field').style.display='';
     if(v('sym-relation-sel')&&v('sym-relation-sel').value==='custom')v('sym-relation-custom').style.display='';
@@ -1110,13 +1078,21 @@ function clearForm(){
   if(!confirm('לנקות את כל הטופס?'))return;
   ["opening", "custom-opening", "sub", "name", "obit-title", "suffix", "funeral-date", "funeral-time", "funeral-loc", "funeral-loc-sel", "shiva-addr", "shiva-hours", "shiva-prayers", "closing", "sym-opening", "sym-custom-opening", "sym-member-name", "sym-relation-sel", "sym-relation-text", "sym-title", "sym-deceased-name", "sym-suffix", "sym-funeral-date", "sym-funeral-time", "sym-funeral-loc", "sym-funeral-loc-sel", "sym-shiva-addr", "sym-shiva-hours", "sym-shiva-prayers", "sym-closing", "res-opening", "res-custom-opening", "res-title", "res-deceased-name", "res-suffix", "res-mourners-prefix", "res-mourners", "res-funeral-date", "res-funeral-time", "res-funeral-loc", "res-funeral-loc-sel", "res-shiva-addr", "res-shiva-hours", "res-shiva-prayers", "res-closing"].forEach(function(id){var el=v(id);if(el)el.value='';});
   /* reset selects to first option */
-  ['opening','sym-opening','res-opening','funeral-loc-sel','sym-funeral-loc-sel','res-funeral-loc-sel','sym-relation-sel'].forEach(function(id){var el=v(id);if(el)el.selectedIndex=0;});
+  ['opening','sym-opening','res-opening','funeral-loc-sel','sym-funeral-loc-sel','res-funeral-loc-sel','sym-relation-sel','sym-solidarity-sel','publisher-sel'].forEach(function(id){var el=v(id);if(el)el.selectedIndex=0;});
   document.querySelector('input[name="gender"][value="m"]').checked=true;
   document.querySelector('input[name="sym-gender"][value="m"]').checked=true;
   document.querySelector('input[name="res-gender"][value="m"]').checked=true;
   setTemplate('personal');
   try{localStorage.removeItem(DRAFT_KEY);}catch(e){}
   update();
+}
+
+function closeWelcome(){
+  var overlay=document.getElementById('welcome-overlay');
+  if(overlay)overlay.classList.remove('open');
+  if(document.getElementById('welcome-no-show').checked){
+    try{localStorage.setItem('obit_welcome_seen','1');}catch(e){}
+  }
 }
 
 function openInternal(){document.getElementById('internal-overlay').classList.add('open');}
@@ -1290,7 +1266,7 @@ function update(){
   if(shivaHours)sl.push('זמני ניחום: '+shivaHours);
   if(shivaPrayers)sl.push('זמני תפילות: '+shivaPrayers);
   showLines('p-shiva','obit-shiva-line',sl);
-  setTimeout(fitObitHeight,10);
+
   var pubSel=v('publisher-sel')?v('publisher-sel').value:'';
   var publisher=pubSel==='custom'?(v('publisher-text')?v('publisher-text').value.trim()||'':pubSel):pubSel;
   show('p-publisher',publisher);
@@ -1359,7 +1335,7 @@ function update(){
     show('rp-closing',resClosing);
   }
 
-  setTimeout(fitObitHeight,10);
+  /* fitObitHeight only when content might overflow */
   saveDraft();
   /* ── TEMPLATE 2: sympathy notice ── */
   if(v('sym-member-name')){
@@ -1433,14 +1409,16 @@ function update(){
 function scaleObit(){
   var sc=v('obit-scaler');if(!sc)return;
   var panel=document.querySelector('.preview-panel');
-  var availW=panel?panel.clientWidth-48:window.innerWidth-32;
-  var availH=panel?panel.clientHeight-110:window.innerHeight-150; /* leave room for buttons */
-  var sByW=availW/1122, sByH=availH/793;
-  var s=Math.min(sByW,sByH);
-  s=Math.max(0.18,Math.min(s,1.4)); /* clamp: never below 0.18, never above 1.4 (4K screens) */
+  if(!panel)return;
+  /* Available width minus padding */
+  var availW=panel.clientWidth-40;
+  /* Scale to fit width, max 0.95 */
+  var s=zoomManual?zoomLevel:Math.max(0.15,Math.min(availW/1122,0.95));
+  if(!zoomManual)zoomLevel=s;
   sc.style.transform='scale('+s+')';
-  sc.style.marginBottom=((793*s)-793)+'px';
-  zoomLevel=s;}
+  /* Compensate height: scaled obit is 793*s px tall, original layout is 793px */
+  sc.style.marginBottom=Math.round(793*s-793)+'px';
+}
 
 /* ── ZOOM CONTROLS ── */
 var zoomLevel=0.75, zoomManual=false;
@@ -1450,7 +1428,7 @@ function zoomReset(){zoomManual=false;scaleObit();}
 function applyZoom(){
   var sc=v('obit-scaler');if(!sc)return;
   sc.style.transform='scale('+zoomLevel+')';
-  sc.style.marginBottom=((793*zoomLevel)-793)+'px';}
+  sc.style.marginBottom=Math.round(793*zoomLevel-793)+'px';}
 
 /* ── AUTO-SHRINK NAME ROW TO FIT ── */
 function fitSubRow(){
@@ -1487,58 +1465,9 @@ function fitSubRow(){
 }
 
 /* Shrink member name in template 3 sub rows */
-function fitObitHeight(){
-  var obit=document.getElementById('obit');
-  if(!obit)return;
-  /* Usable height: 793 - borders(40) - padding-top(28) - padding-bottom(70) = 655px */
-  var maxH=655;
-  if(obit.scrollHeight<=793)return; /* nothing to do */
-  /* Elements to shrink proportionally */
-  var targets=[
-    {sel:'.obit-opening',base:100,min:50},
-    {sel:'.obit-sub',base:42,min:22},
-    {sel:'.obit-funeral-line',base:38,min:18},
-    {sel:'.obit-shiva-line',base:38,min:18},
-    {sel:'.obit-closing',base:38,min:18}
-  ];
-  var attempts=0;
-  while(obit.scrollHeight>793 && attempts<80){
-    var shrunk=false;
-    targets.forEach(function(t){
-      var els=obit.querySelectorAll(t.sel);
-      els.forEach(function(el){
-        var cur=parseFloat(el.style.fontSize)||t.base;
-        if(cur>t.min){
-          el.style.fontSize=Math.max(t.min,cur-1)+'px';
-          shrunk=true;
-        }
-      });
-    });
-    if(!shrunk)break;
-    attempts++;
-  }
-}
+function fitObitHeight(){/* disabled - causes false shrinkage */}
 
-function fitObitHeight(){
-  var obit=document.getElementById('obit');
-  if(!obit)return;
-  /* Available height: 793 - 20*2(border) - 28(pad-top) - 70(pad-bottom) = 655px */
-  var maxH=793-40-98;
-  /* Get all content divs (not absolute-positioned footer/publisher) */
-  var contentEls=obit.querySelectorAll(
-    '.obit-opening,.obit-sub,.obit-name-row,.obit-funeral,.obit-shiva-block,.obit-closing'
-  );
-  if(!contentEls.length)return;
-  /* Check total scroll height of obit content */
-  var attempts=0;
-  while(obit.scrollHeight>maxH+40&&attempts<60){
-    contentEls.forEach(function(el){
-      var cur=parseFloat(el.style.fontSize)||parseFloat(window.getComputedStyle(el).fontSize)||38;
-      if(cur>16)el.style.fontSize=Math.max(16,cur-1)+'px';
-    });
-    attempts++;
-  }
-}
+
 
 function fitClosing(){
   var el=v('p-closing');if(!el||!el.textContent.trim())return;
@@ -1826,6 +1755,18 @@ document.addEventListener('DOMContentLoaded',function(){
   window.addEventListener('resize',function(){if(!zoomManual)scaleObit();});
   loadSavedFont();
   scaleObit();
+  /* Show welcome modal unless user dismissed permanently */
+  try{
+    if(!localStorage.getItem('obit_welcome_seen')){
+      setTimeout(function(){
+        var ov=document.getElementById('welcome-overlay');
+        if(ov)ov.classList.add('open');
+      },400);
+    }
+  }catch(e){
+    var ov=document.getElementById('welcome-overlay');
+    if(ov)ov.classList.add('open');
+  }
   restoreDraft();
   if(!localStorage.getItem(DRAFT_KEY))update();
 });
