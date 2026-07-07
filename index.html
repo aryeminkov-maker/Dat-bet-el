@@ -91,7 +91,7 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
 .cal-selects select{flex:1;font-family:'Heebo',sans-serif;font-size:13px;padding:5px 6px;border:1px solid #ccc;border-radius:5px;direction:rtl;background:#fafaf8}
 .cal-grid{padding:8px 10px 10px}
 .cal-dow{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px}
-.cal-dow span{text-align:center;font-size:10px;font-weight:600;color:#999;padding:3px 0}
+.cal-dow span{text-align:center;font-size:10px;font-weight:600;color:#666;padding:3px 0}
 .cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
 .cal-day{text-align:center;padding:6px 2px;font-size:12px;font-family:'David','David Libre','Rubik',sans-serif;cursor:pointer;border-radius:5px;border:none;background:none;color:#111;font-weight:500;width:100%}
 .cal-day:hover{background:#f0ede6}
@@ -713,11 +713,74 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
           <span style="font-size:32px">🌐</span>
           <span style="font-size:12px">שירותי המחלקה</span>
         </a>
+
+        <button onclick="closeInfo();openAccessibility()" style="display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:none;cursor:pointer;color:#333;padding:0">
+          <span style="font-size:32px">♿</span>
+          <span style="font-size:12px">הצהרת נגישות</span>
+        </button>
         <a href="https://wa.me/97229700518" target="_blank" style="display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;color:#333">
           <span style="font-size:32px">💬</span>
           <span style="font-size:12px">וואטסאפ</span>
         </a>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACCESSIBILITY MODAL -->
+<div class="cal-overlay" id="accessibility-overlay" onclick="if(event.target===this)closeAccessibility()" role="dialog" aria-modal="true" aria-label="הצהרת נגישות" style="direction:rtl">
+  <div class="cal-box" style="width:480px;max-height:85vh;overflow-y:auto">
+    <div class="cal-header">
+      <button class="cal-nav" onclick="closeAccessibility()" aria-label="סגור">✕</button>
+      <h3>♿ הצהרת נגישות</h3>
+      <span></span>
+    </div>
+    <div style="padding:20px;direction:rtl;font-family:'Heebo',sans-serif;font-size:13px;line-height:1.8;color:#222;text-align:right">
+
+      <p style="margin-bottom:12px">מועצה מקומית בית אל ("המועצה") רואה חשיבות עליונה בהנגשת אתר האינטרנט של המועצה לאנשים עם מוגבלויות, ובכך לאפשר למרבית האוכלוסייה לגלוש בקלות ובנוחות באתר המועצה.</p>
+      <p style="margin-bottom:12px">האתר נבנה בהתאם להוראות הנגישות המופיעות ב – W3C's Web Content Accessibility Guidelines 2.0, level AA.</p>
+      <p style="margin-bottom:12px">על פי נתוני עמותת "נגישות ישראל", כ-20-25 אחוזים מאוכלוסיית ישראל נתקלים בקשיי נגישות לאינטרנט. הנגשת האתר נועדה אפוא לשפרו כך שיהיה זמין, ידידותי ונוח יותר לשימוש עבור אוכלוסיות בעלות צרכים מיוחדים, הנובעים בין היתר ממוגבלויות מוטוריות שונות, לקויות קוגניטיביות, קוצר רואי, עיוורון או עיוורון צבעים, לקויות שמיעה וכן אוכלוסייה הנמנית על גיל הזהב.</p>
+
+      <p style="margin-bottom:8px"><strong>להלן חלק מהפעולות שבוצעו במסגרת הנגשת אתר האינטרנט של המועצה:</strong></p>
+      <ul style="margin-right:18px;margin-bottom:12px">
+        <li>אמצעי הניווט וההתמצאות באתר פשוטים ונוחים לשימוש.</li>
+        <li>תכני האתר כתובים בשפה פשוטה וברורה ומאורגנים היטב באמצעות כותרות ורשימות.</li>
+        <li>מבנה קבוע ואחיד לכלל תתי האתרים והדפים באתר.</li>
+        <li>האתר מותאם לצפייה בסוגי הדפדפנים השונים (כמו Chrome, Mozilla).</li>
+        <li>התאמת האתר לסביבות עבודה ברזולוציות שונות.</li>
+        <li>לאובייקטים הגראפיים יש חלופה טקסטואלית (alt).</li>
+        <li>האתר מאפשר שינוי גודל הגופן על ידי שימוש במקש CTRL וגלגלת העכבר.</li>
+        <li>הקישורים באתר ברורים ומכילים הסבר לאן הם מקשרים.</li>
+        <li>אפשרות לשנות את הצבעים באתר באמצעות לחיצה על כפתור הרקע באתר.</li>
+      </ul>
+
+      <p style="margin-bottom:8px"><strong>סייגים לנגישות</strong></p>
+      <p style="margin-bottom:12px">יש לציין כי למרות מאמצנו להנגיש את כלל הדפים באתר, יתכן ויתגלו חלקים באתר שטרם נגישים. אנו ממשיכים במאמצים לשפר את נגישות האתר כחלק ממחויבותנו לאפשר שימוש בו עבור כלל האוכלוסייה כולל אנשים עם מוגבלויות. אחריות השימוש בתוכנה, ואופן היישום של התוכנה הינו באחריות צד ג׳ מטעם החברה שביצע את תהליך הטמעת המוצר.</p>
+
+      <p style="margin-bottom:8px"><strong>הנגשת מסמכים</strong></p>
+      <p style="margin-bottom:12px">אנו בעיצומו של תהליך הנגשת מסמכי האתר. הנגשת המסמכים מתבצעת בהתאם לרלוונטיות הקבצים ולתאריך העדכון שלהם. במידה ונתקלתם בקובץ שאינו נגיש, והנכם זקוקים להתאמות נגישות, אנא פנו אל מנהלת האתר בטלפון: <a href="tel:0297005333" style="color:#1a6b3a">02-9700533</a> או באמצעות הדוא"ל: <a href="mailto:morant@bet-el.muni.il" style="color:#1a6b3a">morant@bet-el.muni.il</a></p>
+
+      <p style="margin-bottom:8px"><strong>הנחיות הנגישות</strong></p>
+      <p style="margin-bottom:4px">באפשרותך לצפות בהנחיות להנגשת אתרי אינטרנט 2.0:</p>
+      <p style="margin-bottom:4px">בעברית: <a href="http://www.isoc.org.il/w3c-wai/guidelines.html" target="_blank" style="color:#1a6b3a">http://www.isoc.org.il/w3c-wai/guidelines.html</a></p>
+      <p style="margin-bottom:12px">באנגלית: <a href="http://www.w3.org/TR/2008/REC-WCAG20-20081211/" target="_blank" style="color:#1a6b3a">http://www.w3.org/TR/2008/REC-WCAG20-20081211/</a></p>
+
+      <p style="margin-bottom:8px"><strong>גלישה נוחה ונגישה באתר</strong></p>
+      <p style="margin-bottom:4px"><strong>איך מנווטים באתר על ידי המקלדת?</strong></p>
+      <p style="margin-bottom:12px">למעבר בין הקישורים באתר יש ללחוץ על מקש TAB. לניווט אחורה יש ללחוץ על צירוף המקשים SHIFT + TAB.</p>
+
+      <p style="margin-bottom:4px"><strong>ניווט בין אזורים</strong></p>
+      <p style="margin-bottom:12px">האתר חולק לאזורים כגון אזור תפריט מרכזי, אזור תוכן מרכזי, אזור תפריט צדדי וכדומה. לפני כל אזור ישנו קישור המציין את שמו של האזור. הקישור משמש לדילוג על האיזור. כך, הניווט באתר הופך להיות קל ומהיר מבלי לחזור על מידע שאתם מכירים.</p>
+
+      <p style="margin-bottom:4px"><strong>חוקי ARIA</strong></p>
+      <p style="margin-bottom:12px">במידה ונעשה שימוש בתוכנה להקראת מסך, דעו שבאתר זה הוטמעו חוקי ARIA העוזרים לפרש את תוכן האתר בצורה מדויקת וטובה יותר.</p>
+
+      <p style="margin-bottom:4px"><strong>הפסקת תנועה והבהובים</strong></p>
+      <p>בסמוך לאלמנטים בעלי תנועה ו/או הבהוב באתר קיים כפתור שליטה המאפשר לעצור או להמשיך את התנועה.</p>
+
+    </div>
+    <div class="cal-footer">
+      <button class="cal-fbtn primary" onclick="closeAccessibility()">סגור</button>
     </div>
   </div>
 </div>
@@ -738,6 +801,23 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
       <button class="cal-fbtn" onclick="closeFinish();exportPDF()">🖨 הדפס / PDF</button>
       <button class="cal-fbtn" onclick="closeFinish();notifyDat()">✉ עדכן את מחלקת דת</button>
       <button class="cal-fbtn" onclick="closeFinish()">סגור</button>
+    </div>
+  </div>
+</div>
+
+<!-- ACCESSIBILITY STATEMENT MODAL -->
+<div class="cal-overlay" id="a11y-overlay" onclick="if(event.target===this)closeA11y()" role="dialog" aria-modal="true" aria-label="הצהרת נגישות">
+  <div class="cal-box" style="width:340px">
+    <div class="cal-header">
+      <button class="cal-nav" onclick="closeA11y()" aria-label="סגור">✕</button>
+      <h3>♿ הצהרת נגישות</h3>
+      <span></span>
+    </div>
+    <div style="padding:20px;direction:rtl;font-family:'Heebo',sans-serif;font-size:15px;line-height:1.8;color:#222;text-align:center">
+      <a href="https://www.bet-el.muni.il/accessibility/" target="_blank" style="color:#1a6b3a;font-weight:700;font-size:16px">לצפייה בהצהרת הנגישות של המועצה לחצו כאן</a>
+    </div>
+    <div class="cal-footer">
+      <button class="cal-fbtn primary" onclick="closeA11y()">סגור</button>
     </div>
   </div>
 </div>
@@ -1059,7 +1139,7 @@ function renderSavedList(){
   var saved=getSaved();
   var container=document.getElementById('saved-list');
   if(!saved.length){
-    container.innerHTML='<p style="text-align:center;color:#888;padding:20px;font-size:13px">אין מודעות שמורות</p>';
+    container.innerHTML='<p style="text-align:center;color:#555;padding:20px;font-size:13px">אין מודעות שמורות</p>';
     return;
   }
   container.innerHTML=saved.map(function(item){
@@ -1067,7 +1147,7 @@ function renderSavedList(){
       '<div style="display:flex;justify-content:space-between;align-items:center">'+
       '<div>'+
         '<div style="font-weight:600;font-size:14px">'+item.name+'</div>'+
-        '<div style="font-size:12px;color:#888;margin-top:2px">'+item.tplName+' · '+item.date+'</div>'+
+        '<div style="font-size:12px;color:#555;margin-top:2px">'+item.tplName+' · '+item.date+'</div>'+
       '</div>'+
       '<button onclick="event.stopPropagation();deleteSaved('+item.id+')" style="background:none;border:none;color:#c0392b;cursor:pointer;font-size:16px;padding:4px 8px" title="מחק">🗑</button>'+
       '</div>'+
@@ -1205,6 +1285,9 @@ function closeWelcome(){
   }
 }
 
+function openA11y(){document.getElementById('a11y-overlay').classList.add('open');}
+function closeA11y(){document.getElementById('a11y-overlay').classList.remove('open');}
+
 function closeFinish(){document.getElementById('finish-overlay').classList.remove('open');}
 
 function distributeSpace(){
@@ -1255,6 +1338,9 @@ function handleFinish(){
   try{saveCurrentNotice();}catch(e){}
   document.getElementById('finish-overlay').classList.add('open');
 }
+
+function openAccessibility(){document.getElementById('accessibility-overlay').classList.add('open');}
+function closeAccessibility(){document.getElementById('accessibility-overlay').classList.remove('open');}
 
 function openInternal(){document.getElementById('internal-overlay').classList.add('open');}
 function closeInternal(){document.getElementById('internal-overlay').classList.remove('open');}
