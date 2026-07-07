@@ -738,7 +738,7 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
         </a>
       </div>
     </div>
-    <!-- Bottom row: Accessibility + Install -->
+    <!-- Bottom row: Accessibility + Install + Share -->
     <div style="border-top:1px solid #eee;padding:10px 16px;display:flex;justify-content:space-around;direction:rtl">
       <button onclick="closeInfo();openAccessibility()" style="display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;cursor:pointer;color:#333;font-family:'Heebo',sans-serif;font-size:12px;padding:4px 8px">
         <span style="font-size:24px">♿</span>
@@ -747,6 +747,10 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
       <button id="pwa-install-btn" onclick="installPWA()" style="display:none;flex-direction:column;align-items:center;gap:4px;background:none;border:none;cursor:pointer;color:#1a6b3a;font-family:'Heebo',sans-serif;font-size:12px;padding:4px 8px">
         <span style="font-size:24px">📲</span>
         הוסף לדף הבית
+      </button>
+      <button id="share-btn" onclick="shareApp()" style="display:none;flex-direction:column;align-items:center;gap:4px;background:none;border:none;cursor:pointer;color:#333;font-family:'Heebo',sans-serif;font-size:12px;padding:4px 8px">
+        <span style="font-size:24px">↗️</span>
+        שתף
       </button>
     </div>
   </div>
@@ -1380,6 +1384,16 @@ window.addEventListener('appinstalled',function(){
   if(btn)btn.style.display='none';
   deferredPrompt=null;
 });
+function shareApp(){
+  if(navigator.share){
+    navigator.share({
+      title:'יוצר מודעת אבל — מחלקת דת בית אל',
+      text:'כלי ליצירת מודעות אבל מותאמות אישית — מועצה מקומית בית אל',
+      url:'https://obit.bet-el.muni.il'
+    }).catch(function(){});
+  }
+}
+
 function installPWA(){
   if(!deferredPrompt)return;
   deferredPrompt.prompt();
