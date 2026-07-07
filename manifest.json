@@ -2,7 +2,8 @@
   "name": "יוצר מודעת אבל — מחלקת דת בית אל",
   "short_name": "מודעת אבל",
   "description": "כלי ליצירת מודעות אבל מותאמות אישית — מועצה מקומית בית אל",
-  "start_url": "/",
+  "start_url": "https://obit.bet-el.muni.il/",
+  "scope": "https://obit.bet-el.muni.il/",
   "display": "standalone",
   "background_color": "#f5f3ee",
   "theme_color": "#1a1a1a",
@@ -11,13 +12,9 @@
   "icons": [
     {
       "src": "logo.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "logo.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "sizes": "675x675",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
