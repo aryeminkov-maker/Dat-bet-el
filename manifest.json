@@ -1,0 +1,23 @@
+{
+  "name": "יוצר מודעת אבל — מחלקת דת בית אל",
+  "short_name": "מודעת אבל",
+  "description": "כלי ליצירת מודעות אבל מותאמות אישית — מועצה מקומית בית אל",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f3ee",
+  "theme_color": "#1a1a1a",
+  "dir": "rtl",
+  "lang": "he",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
