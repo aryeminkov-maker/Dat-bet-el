@@ -748,6 +748,11 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
         <span style="font-size:24px">📲</span>
         הוסף לדף הבית
       </button>
+      <button onclick="shareApp()" id="share-btn" style="display:none;flex-direction:column;align-items:center;gap:4px;background:none;border:none;cursor:pointer;color:#333;font-family:'Heebo',sans-serif;font-size:12px;padding:4px 8px">
+        <span style="font-size:24px">↗️</span>
+        שתף את הכלי
+      </button>
+
       <button id="share-btn" onclick="shareApp()" style="display:none;flex-direction:column;align-items:center;gap:4px;background:none;border:none;cursor:pointer;color:#333;font-family:'Heebo',sans-serif;font-size:12px;padding:4px 8px">
         <span style="font-size:24px">↗️</span>
         שתף
@@ -813,6 +818,8 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
     </div>
   </div>
 </div>
+
+
 
 <!-- FINISH MODAL -->
 <div class="cal-overlay" id="finish-overlay" onclick="if(event.target===this)closeFinish()" role="dialog" aria-modal="true" aria-label="סיום הכנת המודעה">
@@ -1384,6 +1391,16 @@ window.addEventListener('appinstalled',function(){
   if(btn)btn.style.display='none';
   deferredPrompt=null;
 });
+function shareApp(){
+  if(navigator.share){
+    navigator.share({
+      title:'יוצר מודעת אבל — מחלקת דת בית אל',
+      text:'כלי ליצירת מודעות אבל מותאמות אישית — מועצה מקומית בית אל',
+      url:'https://obit.bet-el.muni.il'
+    }).catch(function(){});
+  }
+}
+
 function shareApp(){
   if(navigator.share){
     navigator.share({
