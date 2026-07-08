@@ -139,7 +139,7 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
 <div class="main" id="main-content">
 <div class="form-panel">
   <div class="template-switch">
-    <button type="button" class="tpl-btn active" id="tpl-btn-personal" onclick="setTemplate('personal')">פטירה — נפטר/ת</button>
+    <button type="button" class="tpl-btn active" id="tpl-btn-personal" onclick="setTemplate('personal')">יצירת מודעת אבל</button>
   </div>
 
   <!-- ═══ TEMPLATE 1 FIELDS: personal obituary ═══ -->
@@ -1574,7 +1574,10 @@ function handleSymShivaPhraseChange(){
 function getSymShivaPhrase(){
   var sel=v('sym-shiva-phrase-sel');
   if(!sel)return'המשפחה יושבת שבעה ב';
-  if(sel.value==='custom'){var t=v('sym-shiva-phrase-text');return t?t.value.trim()||'המשפחה יושבת שבעה ב':'המשפחה יושבת שבעה ב';}
+  if(sel.value==='custom'){
+    var t=v('sym-shiva-phrase-text');
+    return t?t.value.trim():'';
+  }
   return sel.value;
 }
 function handleResShivaPhraseChange(){
@@ -1713,7 +1716,7 @@ function update(){
     showLines('rp-funeral','obit-funeral-line',resFl);
 
     var resSl=[];
-    if(resAddr)resSl.push(getResShivaPhrase()+resAddr);
+    if(resAddr)resSl.push(getResShivaPhrase()+' '+resAddr);
     if(resHours)resSl.push('זמני ניחום: '+resHours);
     if(resPrayers)resSl.push('זמני תפילות: '+resPrayers);
     showLines('rp-shiva','obit-shiva-line',resSl);
@@ -1785,7 +1788,15 @@ function update(){
     showLines('sp-funeral','obit-funeral-line',symFl);
 
     var symSl=[];
-    if(symShivaAddr)symSl.push('המשפחה יושבת שבעה ב'+symShivaAddr);
+    var symShivaPhrase=getSymShivaPhrase();
+    var symShivaSel=v('sym-shiva-phrase-sel');
+    var isCustomPhrase=symShivaSel&&symShivaSel.value==='custom';
+    if(isCustomPhrase&&symShivaPhrase&&!symShivaAddr){
+      /* Custom phrase with no address - show phrase alone */
+      symSl.push(symShivaPhrase);
+    } else if(symShivaAddr){
+      symSl.push(symShivaPhrase+' '+symShivaAddr);
+    }
     if(symShivaHours)symSl.push('זמני ניחום: '+symShivaHours);
     if(symPrayers)symSl.push('זמני תפילות: '+symPrayers);
     showLines('sp-shiva','obit-shiva-line',symSl);
@@ -2188,6 +2199,13 @@ document.addEventListener('DOMContentLoaded',function(){
   document.querySelectorAll('input[name="gender"]').forEach(function(r){r.addEventListener('change',update);});
   document.querySelectorAll('input[name="res-gender"]').forEach(function(r){r.addEventListener('change',update);});
   window.addEventListener('resize',function(){if(!zoomManual)scaleObit();});
+  /* Auto-distribute space on blur of any field */
+  document.addEventListener('blur',function(e){
+    var tag=e.target.tagName;
+    if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT'){
+      setTimeout(distributeSpace,100);
+    }
+  },true);
   loadSavedFont();
   scaleObit();
   /* Show welcome modal unless user dismissed permanently */
