@@ -713,10 +713,10 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
       <div style="margin-bottom:18px;text-align:right">
         <label style="font-size:13px;color:#555;display:block;margin-bottom:6px;font-weight:600">בחירת פונט למודעה:</label>
         <select id="font-selector" onchange="applyFont(this.value)" style="width:100%;font-family:'Heebo',sans-serif;font-size:13px;padding:7px 9px;border:1px solid #ccc;border-radius:6px;direction:rtl;background:#fafaf8">
-          <option value="david">David / Rubik (ברירת מחדל)</option>
-          <option value="frank">Frank Ruhl Libre (קלאסי)</option>
-          <option value="noto">Noto Serif Hebrew (נקי)</option>
-          <option value="tinos">Tinos (דומה לדויד)</option>
+          <option value="david">David / Rubik</option>
+          <option value="david-libre">David Libre</option>
+          <option value="frank">Frank Ruhl Libre</option>
+          <option value="noto">Noto Serif Hebrew</option>
         </select>
         <div id="font-preview" style="margin-top:8px;padding:8px;border:1px solid #eee;border-radius:6px;font-size:20px;text-align:center;color:#111">ברוך דיין האמת</div>
       </div>
@@ -1435,7 +1435,6 @@ var FONTS={
   'david-libre':"'David Libre',serif",
   frank:        "'Frank Ruhl Libre',serif",
   noto:         "'Noto Serif Hebrew',serif",
-  tinos:        "'Tinos',serif"
 };
 
 function applyFont(val){
@@ -1451,8 +1450,15 @@ function updateFontPreview(val){
 }
 
 function loadSavedFont(){
-  var saved=localStorage.getItem('obit_font');
-  if(saved&&FONTS[saved])applyFont(saved);
+  var saved=null;
+  try{saved=localStorage.getItem('obit_font');}catch(e){}
+  if(!saved){
+    /* Default: David Libre on mobile, David on desktop */
+    saved=window.innerWidth<=900?'david-libre':'david';
+  }
+  applyFont(saved);
+  var sel=document.getElementById('font-selector');
+  if(sel)sel.value=saved;
 }
 
 function openInfo(){document.getElementById('info-overlay').classList.add('open');}
