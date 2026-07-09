@@ -1327,7 +1327,6 @@ function closeA11y(){document.getElementById('a11y-overlay').classList.remove('o
 function closeFinish(){document.getElementById('finish-overlay').classList.remove('open');}
 
 function distributeSpace(){
-  /* Find active preview */
   var tplId={'personal':'tpl1-preview','sympathy':'tpl2-preview','resident':'tpl3-preview'}[ACTIVE_TPL]||'tpl1-preview';
   var preview=document.getElementById(tplId);
   if(!preview)return;
@@ -1335,37 +1334,32 @@ function distributeSpace(){
   /* Inner usable height: 793 - 40(border) - 28(pad-top) - 70(pad-bottom) = 655px */
   var totalH=655;
 
-  /* Get the footer row height (always at bottom) */
+  /* Footer row height */
   var footer=document.querySelector('.obit-footer-row');
   var footerH=footer?footer.offsetHeight:50;
 
-  /* Get the publisher if visible */
+  /* Publisher: absolute positioned - subtract from available space */
   var publisher=document.getElementById('p-publisher');
-  var publisherH=(publisher&&publisher.textContent.trim())?publisher.offsetHeight:0;
+  var publisherH=(publisher&&publisher.textContent.trim())?publisher.offsetHeight+8:0;
 
   /* Available for content */
   var availH=totalH-footerH-publisherH-10;
 
-  /* Measure current content height */
+  /* Measure content elements */
   var contentEls=Array.from(preview.querySelectorAll(
     '.obit-opening,.obit-sub,.obit-name-row,.obit-funeral,.obit-shiva-block,.obit-closing'
-  )).filter(function(el){return el.offsetParent!==null&&el.offsetHeight>0;});
+  )).filter(function(el){return el.offsetHeight>0;});
 
   if(!contentEls.length)return;
 
   var contentH=contentEls.reduce(function(sum,el){return sum+el.offsetHeight;},0);
-  var currentGap=parseFloat(getComputedStyle(preview).gap)||0;
   var gaps=contentEls.length-1;
-
-  /* Space remaining */
   var remaining=availH-contentH;
-  /* Two line heights at current font size (~80px) */
   var twoLines=80;
 
-  if(remaining<=twoLines)return; /* Already full enough */
+  if(remaining<=twoLines||gaps<=0)return;
 
-  /* Distribute extra space as gap */
-  var newGap=gaps>0?Math.min(remaining/gaps,60):0;
+  var newGap=Math.min(remaining/gaps,60);
   preview.style.gap=newGap+'px';
 }
 
@@ -1452,10 +1446,7 @@ function updateFontPreview(val){
 function loadSavedFont(){
   var saved=null;
   try{saved=localStorage.getItem('obit_font');}catch(e){}
-  if(!saved){
-    /* Default: David Libre on mobile, David on desktop */
-    saved=window.innerWidth<=900?'david-libre':'david';
-  }
+  if(!saved)saved='david';
   applyFont(saved);
   var sel=document.getElementById('font-selector');
   if(sel)sel.value=saved;
