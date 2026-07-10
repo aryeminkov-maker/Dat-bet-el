@@ -215,7 +215,7 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
     </select>
   </div>
   <div class="field" id="funeral-loc-custom" style="display:none">
-    <input type="text" id="funeral-loc" aria-label="מיקום הלוויה" maxlength="44" placeholder="ניתן להקליד כאן">
+    <textarea id="funeral-loc" aria-label="מיקום הלוויה" maxlength="80" placeholder="ניתן להקליד כאן" rows="2" style="resize:none;font-family:inherit;line-height:1.4"></textarea>
   </div>
 
   <div class="sec">פרטי השבעה</div>
@@ -235,7 +235,7 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
   </div>
   <div class="field">
     <label>כתובת</label>
-    <input type="text" id="shiva-addr" maxlength="80" placeholder="ניתן להקליד כאן">
+    <textarea id="shiva-addr" maxlength="80" placeholder="ניתן להקליד כאן" rows="2" style="resize:none;font-family:inherit;line-height:1.4"></textarea>
   </div>
   <div class="field">
     <label>זמני ניחום</label>
@@ -367,7 +367,7 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
       </select>
     </div>
     <div class="field" id="sym-funeral-loc-custom" style="display:none">
-      <input type="text" id="sym-funeral-loc" aria-label="מיקום הלוויה" maxlength="44" placeholder="ניתן להקליד כאן">
+      <textarea id="sym-funeral-loc" aria-label="מיקום הלוויה" maxlength="80" placeholder="ניתן להקליד כאן" rows="2" style="resize:none;font-family:inherit;line-height:1.4"></textarea>
     </div>
 
     <div class="sec">פרטי השבעה</div>
@@ -387,7 +387,7 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
     </div>
     <div class="field">
       <label>כתובת</label>
-      <input type="text" id="sym-shiva-addr" maxlength="80" placeholder="ניתן להקליד כאן">
+      <textarea id="sym-shiva-addr" maxlength="80" placeholder="ניתן להקליד כאן" rows="2" style="resize:none;font-family:inherit;line-height:1.4"></textarea>
       <div style="font-size:10px;color:var(--muted);text-align:left;margin-top:2px">מקסימום שורה אחת</div>
     </div>
     <div class="field">
@@ -403,7 +403,7 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
 
     <div class="sec">שורת סיום</div>
     <div class="field">
-      <input type="text" id="sym-closing" aria-label="שורת סיום" maxlength="44" placeholder="ניתן להקליד כאן">
+      <textarea id="sym-closing" aria-label="שורת סיום" maxlength="200" placeholder="ניתן להקליד כאן" rows="3" style="resize:none;font-family:inherit;line-height:1.4"></textarea>
       <div style="font-size:10px;color:var(--muted);text-align:left;margin-top:2px">מקסימום שורה אחת</div>
     </div>
 
@@ -485,7 +485,7 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
       </select>
     </div>
     <div class="field" id="res-funeral-loc-custom" style="display:none">
-      <input type="text" id="res-funeral-loc" aria-label="מיקום הלוויה" maxlength="44" placeholder="ניתן להקליד כאן">
+      <textarea id="res-funeral-loc" aria-label="מיקום הלוויה" maxlength="80" placeholder="ניתן להקליד כאן" rows="2" style="resize:none;font-family:inherit;line-height:1.4"></textarea>
     </div>
 
     <div class="sec">פרטי השבעה</div>
@@ -505,7 +505,7 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
     </div>
     <div class="field">
       <label>כתובת</label>
-      <input type="text" id="res-shiva-addr" maxlength="80" placeholder="ניתן להקליד כאן">
+      <textarea id="res-shiva-addr" maxlength="80" placeholder="ניתן להקליד כאן" rows="2" style="resize:none;font-family:inherit;line-height:1.4"></textarea>
       <div style="font-size:10px;color:var(--muted);text-align:left;margin-top:2px">מקסימום שורה אחת</div>
     </div>
     <div class="field">
@@ -521,7 +521,7 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
 
     <div class="sec">שורת סיום</div>
     <div class="field">
-      <input type="text" id="res-closing" aria-label="שורת סיום" maxlength="44" placeholder="ניתן להקליד כאן">
+      <textarea id="res-closing" aria-label="שורת סיום" maxlength="200" placeholder="ניתן להקליד כאן" rows="3" style="resize:none;font-family:inherit;line-height:1.4"></textarea>
       <div style="font-size:10px;color:var(--muted);text-align:left;margin-top:2px">מקסימום שורה אחת</div>
     </div>
 
@@ -1355,11 +1355,11 @@ function distributeSpace(){
   var contentH=contentEls.reduce(function(sum,el){return sum+el.offsetHeight;},0);
   var gaps=contentEls.length-1;
   var remaining=availH-contentH;
-  var twoLines=80;
+  var twoLines=120; /* 3 lines worth of space */
 
   if(remaining<=twoLines||gaps<=0)return;
 
-  var newGap=Math.min(remaining/gaps,60);
+  var newGap=Math.min(remaining/gaps,30);
   preview.style.gap=newGap+'px';
 }
 
