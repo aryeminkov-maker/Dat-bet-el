@@ -222,11 +222,11 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
   <div class="field">
     <label>ניסוח שורת השבעה</label>
     <select id="shiva-phrase-sel" onchange="handleShivaPhraseChange()">
-      <option value="המשפחה יושבת שבעה ב">המשפחה יושבת שבעה ב... (ברירת מחדל)</option>
-      <option value="יושב שבעה ב">יושב שבעה ב...</option>
-      <option value="יושבת שבעה ב">יושבת שבעה ב...</option>
-      <option value="יושבים שבעה ב">יושבים שבעה ב...</option>
-      <option value="יושבות שבעה ב">יושבות שבעה ב...</option>
+      <option value="המשפחה יושבת שבעה">המשפחה יושבת שבעה (ברירת מחדל)</option>
+      <option value="יושב שבעה">יושב שבעה...</option>
+      <option value="יושבת שבעה">יושבת שבעה...</option>
+      <option value="יושבים שבעה">יושבים שבעה...</option>
+      <option value="יושבות שבעה">יושבות שבעה...</option>
       <option value="custom">אחר (הקלידו)...</option>
     </select>
   </div>
@@ -374,11 +374,11 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
     <div class="field">
       <label>ניסוח שורת השבעה</label>
       <select id="sym-shiva-phrase-sel" onchange="handleSymShivaPhraseChange()">
-        <option value="המשפחה יושבת שבעה ב">המשפחה יושבת שבעה ב... (ברירת מחדל)</option>
-        <option value="יושב שבעה ב">יושב שבעה ב...</option>
-        <option value="יושבת שבעה ב">יושבת שבעה ב...</option>
-        <option value="יושבים שבעה ב">יושבים שבעה ב...</option>
-        <option value="יושבות שבעה ב">יושבות שבעה ב...</option>
+        <option value="המשפחה יושבת שבעה">המשפחה יושבת שבעה (ברירת מחדל)</option>
+        <option value="יושב שבעה">יושב שבעה...</option>
+        <option value="יושבת שבעה">יושבת שבעה...</option>
+        <option value="יושבים שבעה">יושבים שבעה...</option>
+        <option value="יושבות שבעה">יושבות שבעה...</option>
         <option value="custom">אחר (הקלידו)...</option>
       </select>
     </div>
@@ -492,11 +492,11 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
     <div class="field">
       <label>ניסוח שורת השבעה</label>
       <select id="res-shiva-phrase-sel" onchange="handleResShivaPhraseChange()">
-        <option value="המשפחה יושבת שבעה ב">המשפחה יושבת שבעה ב... (ברירת מחדל)</option>
-        <option value="יושב שבעה ב">יושב שבעה ב...</option>
-        <option value="יושבת שבעה ב">יושבת שבעה ב...</option>
-        <option value="יושבים שבעה ב">יושבים שבעה ב...</option>
-        <option value="יושבות שבעה ב">יושבות שבעה ב...</option>
+        <option value="המשפחה יושבת שבעה">המשפחה יושבת שבעה (ברירת מחדל)</option>
+        <option value="יושב שבעה">יושב שבעה...</option>
+        <option value="יושבת שבעה">יושבת שבעה...</option>
+        <option value="יושבים שבעה">יושבים שבעה...</option>
+        <option value="יושבות שבעה">יושבות שבעה...</option>
         <option value="custom">אחר (הקלידו)...</option>
       </select>
     </div>
@@ -1571,7 +1571,7 @@ function handleSymShivaPhraseChange(){
 }
 function getSymShivaPhrase(){
   var sel=v('sym-shiva-phrase-sel');
-  if(!sel)return'המשפחה יושבת שבעה ב';
+  if(!sel)return'המשפחה יושבת שבעה';
   if(sel.value==='custom'){
     var t=v('sym-shiva-phrase-text');
     return t?t.value.trim():'';
@@ -1586,16 +1586,16 @@ function handleResShivaPhraseChange(){
 }
 function getResShivaPhrase(){
   var sel=v('res-shiva-phrase-sel');
-  if(!sel)return'המשפחה יושבת שבעה ב';
-  if(sel.value==='custom'){var t=v('res-shiva-phrase-text');return t?t.value.trim()||'המשפחה יושבת שבעה ב':'המשפחה יושבת שבעה ב';}
+  if(!sel)return'המשפחה יושבת שבעה';
+  if(sel.value==='custom'){var t=v('res-shiva-phrase-text');return t?t.value.trim()||'המשפחה יושבת שבעה':'המשפחה יושבת שבעה';}
   return sel.value;
 }
 function getShivaPhrase(){
   var sel=v('shiva-phrase-sel');
-  if(!sel)return'המשפחה יושבת שבעה ב';
+  if(!sel)return'המשפחה יושבת שבעה';
   if(sel.value==='custom'){
     var txt=v('shiva-phrase-text');
-    return txt?txt.value.trim():'המשפחה יושבת שבעה ב';
+    return txt?txt.value.trim():'המשפחה יושבת שבעה';
   }
   return sel.value;
 }
@@ -1639,17 +1639,18 @@ function update(){
   var fl=[];
   if(fDate){
     var now=new Date(),fd=new Date(fDate+(fTime?'T'+fTime+':00':'T23:59:59'));
-    var past=fd<now;
+    var pastChk=v('funeral-past')&&v('funeral-past').checked;
+    var past=pastChk||fd<now;
     var ln=(past?'ההלוויה התקיימה ב':'הלוויה תתקיים ב')+fmtWD(fDate)+', '+fmtHD(fDate);
     if(fTime)ln+=', בשעה '+fTime;
     fl.push(ln);}
-  if(fLoc)fl.push('ב'+fLoc);
+  if(fLoc)fl.push(fLoc);
   showLines('p-funeral','obit-funeral-line',fl);
 
   var sl=[];
   var shivaPhrase=getShivaPhrase();
   if(shivaAddr)sl.push(shivaPhrase+shivaAddr);
-  else if(shivaPhrase!=='המשפחה יושבת שבעה ב')sl.push(shivaPhrase+'...');
+  else if(shivaPhrase!=='המשפחה יושבת שבעה')sl.push(shivaPhrase+'...');
   if(shivaHours)sl.push('זמני ניחום: '+shivaHours);
   if(shivaPrayers)sl.push('זמני תפילות: '+shivaPrayers);
   showLines('p-shiva','obit-shiva-line',sl);
@@ -1706,11 +1707,12 @@ function update(){
     var resFl=[];
     if(resFDate){
       var now3=new Date(),fd3=new Date(resFDate+(resFTime?'T'+resFTime+':00':'T23:59:59'));
-      var past3=fd3<now3;
+      var resPastChk=v('res-funeral-past')&&v('res-funeral-past').checked;
+      var past3=resPastChk||fd3<now3;
       var ln3=(past3?'ההלוויה התקיימה ב':'הלוויה תתקיים ב')+fmtWD(resFDate)+', '+fmtHD(resFDate);
       if(resFTime)ln3+=', בשעה '+resFTime;
       resFl.push(ln3);}
-    if(resLoc)resFl.push('ב'+resLoc);
+    if(resLoc)resFl.push(resLoc);
     showLines('rp-funeral','obit-funeral-line',resFl);
 
     var resSl=[];
@@ -1778,11 +1780,12 @@ function update(){
     var symFl=[];
     if(symFDate){
       var now2=new Date(),fd2=new Date(symFDate+(symFTime?'T'+symFTime+':00':'T23:59:59'));
-      var past2=fd2<now2;
+      var symPastChk=v('sym-funeral-past')&&v('sym-funeral-past').checked;
+      var past2=symPastChk||fd2<now2;
       var ln2=(past2?'ההלוויה התקיימה ב':'הלוויה תתקיים ב')+fmtWD(symFDate)+', '+fmtHD(symFDate);
       if(symFTime)ln2+=', בשעה '+symFTime;
       symFl.push(ln2);}
-    if(symLoc)symFl.push('ב'+symLoc);
+    if(symLoc)symFl.push(symLoc);
     showLines('sp-funeral','obit-funeral-line',symFl);
 
     var symSl=[];
