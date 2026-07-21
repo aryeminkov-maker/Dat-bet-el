@@ -48,7 +48,7 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .err-msg{font-size:11px;color:#c0392b;margin-top:3px;display:none}
 .heb-preview{font-size:12px;color:#1a6b3c;margin-top:3px;min-height:15px;font-family:'David','David Libre','Rubik',sans-serif;font-weight:500}
-.preview-panel{background:#c8c5bc;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:16px;padding:20px;overflow:hidden;overflow-x:hidden}
+.preview-panel{background:#c8c5bc;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:16px;padding:20px;overflow:hidden;overflow-x:clip}
 .obit-scaler{width:1122px;height:793px;transform-origin:top center;display:block;flex-shrink:0}
 .obit{width:1122px;height:793px;background:#fff;border:20px solid #000;font-family:'David','David Libre','Rubik',sans-serif;color:#000;direction:rtl;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;padding:28px 56px 70px;gap:0}
 .obit::after{}
@@ -72,16 +72,16 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
 .btn.notify{background:#1a5c2a;color:#fff;border-color:#1a5c2a}
 .btn.notify:hover{background:#256b33}
 .btn:disabled{opacity:.5;cursor:not-allowed}
-.zoom-controls{display:flex;gap:6px;margin-bottom:8px;background:#fff;border-radius:8px;padding:5px;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.zoom-controls{display:flex;gap:6px;margin-bottom:8px;background:#fff;border-radius:8px;padding:5px;box-shadow:0 1px 4px rgba(0,0,0,.15);position:relative;z-index:2;flex-shrink:0}
 .zoom-btn{width:32px;height:32px;border:1px solid #ccc;border-radius:6px;background:#fafaf8;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#333}
 .zoom-btn:hover{background:#eee}
 .date-mode-toggle{display:flex;gap:0;margin-bottom:6px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
 .dmt-btn{flex:1;padding:6px 0;font-family:'Heebo',sans-serif;font-size:12px;font-weight:500;border:none;background:#f0ede6;color:#666;cursor:pointer;transition:background .12s}
 .dmt-btn.active{background:#111;color:#fff}
 .dmt-btn:not(.active):hover{background:#e5e0d5}
-.template-switch{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;padding-bottom:14px;border-bottom:2px solid #ddd}
-.tpl-btn{padding:9px 10px;font-family:'Heebo',sans-serif;font-size:12.5px;font-weight:600;border:1.5px solid #ccc;border-radius:7px;background:#f7f5f0;color:#555;cursor:pointer;text-align:center;transition:all .12s}
-.tpl-btn.active{background:#111;color:#fff;border-color:#111}
+
+
+
 .tpl-btn:not(.active):hover{background:#ece8de}
 .obit-inline-name{font-weight:900;font-size:66px;vertical-align:baseline}
 .obit-footer-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:baseline;width:100%;font-size:38px;font-weight:700;color:#000;position:absolute;bottom:18px;left:0;right:0;padding:0 40px}
@@ -130,7 +130,6 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
   <h1>יוצר מודעת אבל</h1>
   <p>התצוגה המקדימה מתעדכנת בזמן אמת · <strong>מומלץ להכין את המודעה ממחשב</strong></p>
   <button onclick="openInfo()" style="background:none;border:1.5px solid #555;border-radius:8px;padding:0 10px;height:28px;font-size:13px;font-family:'Heebo',sans-serif;cursor:pointer;color:#444;flex-shrink:0" title="מידע">ℹ מידע</button>
-  <button onclick="openInternal()" style="background:none;border:1.5px solid #555;border-radius:8px;padding:0 10px;height:28px;font-size:13px;font-family:'Heebo',sans-serif;cursor:pointer;color:#555;flex-shrink:0" title="לשימוש פנימי">🔐 לשימוש פנימי</button>
   <button onclick="openSaved()" style="background:none;border:1.5px solid #555;border-radius:8px;padding:0 10px;height:28px;font-size:13px;font-family:'Heebo',sans-serif;cursor:pointer;color:#555;flex-shrink:0" title="מודעות שמורות">📋 מודעות שמורות</button>
   <button onclick="clearForm()" style="background:none;border:1.5px solid #c0392b;border-radius:8px;padding:0 10px;height:28px;font-size:13px;font-family:'Heebo',sans-serif;cursor:pointer;color:#c0392b;flex-shrink:0" title="ניקוי טופס">🗑 נקה טופס</button>
 </header>
@@ -138,9 +137,7 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
 
 <div class="main" id="main-content">
 <div class="form-panel">
-  <div class="template-switch">
-    <button type="button" class="tpl-btn active" id="tpl-btn-personal" onclick="setTemplate('personal')">יצירת מודעת אבל</button>
-  </div>
+
 
   <!-- ═══ TEMPLATE 1 FIELDS: personal obituary ═══ -->
   <div id="tpl-personal-fields">
@@ -197,6 +194,14 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
     <input type="hidden" id="funeral-date">
     <div class="heb-preview" id="heb-preview"></div>
   </div>
+  <div class="field" id="funeral-manual-field" style="display:none">
+    <label>עריכה ידנית של שורת ההלוויה</label>
+    <textarea id="funeral-manual" placeholder="לדוגמה: ההלוויה תתקיים ביום ג׳ כ״א תמוז בשעה 14:00" aria-label="עריכה ידנית של שורת ההלוויה" rows="2" style="resize:none;font-family:inherit;line-height:1.4"></textarea>
+    <div style="font-size:11px;color:var(--muted);margin-top:3px">כאשר שורה זו מלאה — היא תחליף את שורת ההלוויה האוטומטית</div>
+  </div>
+  <div class="field">
+    <button type="button" onclick="toggleFuneralManual()" id="funeral-manual-btn" style="background:none;border:1px solid #aaa;border-radius:6px;padding:4px 12px;font-family:'Heebo',sans-serif;font-size:12px;color:#555;cursor:pointer">✏️ עריכה ידנית של שורת ההלוויה</button>
+  </div>
   <div class="row2">
     <div class="field">
       <label>שעה</label>
@@ -239,12 +244,12 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
   </div>
   <div class="field">
     <label>זמני ניחום</label>
-    <input type="text" id="shiva-hours" maxlength="80" placeholder="ניתן להקליד כאן">
+    <textarea id="shiva-hours" placeholder="ניתן להקליד כאן" rows="2" style="resize:none;font-family:inherit;line-height:1.4"></textarea>
     <div style="font-size:10px;color:var(--muted);text-align:left;margin-top:2px">מקסימום שורה אחת</div>
   </div>
   <div class="field">
     <label>זמני תפילות</label>
-    <input type="text" id="shiva-prayers" maxlength="80" placeholder="ניתן להקליד כאן">
+    <textarea id="shiva-prayers" placeholder="ניתן להקליד כאן" rows="2" style="resize:none;font-family:inherit;line-height:1.4"></textarea>
     <div style="font-size:10px;color:var(--muted);text-align:left;margin-top:2px">מקסימום שורה אחת</div>
   </div>
 
@@ -270,262 +275,10 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
   </div><!-- /tpl-personal-fields -->
 
   <!-- ═══ TEMPLATE 2 FIELDS: sympathy / community member's relative ═══ -->
-  <div id="tpl-sympathy-fields" style="display:none">
-
-    <div class="sec">שורת פתיחה</div>
-    <div class="field">
-      <select id="sym-opening">
-        <option value="ברוך דיין האמת">ברוך דיין האמת</option>
-        <option value="custom">אחר (הקלידו)...</option>
-      </select>
-    </div>
-    <div class="field" id="sym-custom-field" style="display:none">
-      <input type="text" id="sym-custom-opening" aria-label="שורת פתיחה מותאמת" maxlength="44" placeholder="שורת פתיחה מותאמת...">
-    </div>
-
-    <div class="sec">פרטי החבר/ה</div>
-    <div class="field">
-      <label>נוסח ההשתתפות</label>
-      <select id="sym-solidarity-sel" aria-label="נוסח ההשתתפות" onchange="updateSymSolidarity()">
-        <option value="m_single">גבר (יחיד) — משתתפים באבלו של חברנו</option>
-        <option value="f_single">אישה (יחידה) — משתתפים באבלה של חברתנו</option>
-        <option value="m_plural">גברים (רבים) — משתתפים באבלם של חברינו</option>
-        <option value="f_plural">נשים (רבות) — משתתפים באבלן של חברותינו</option>
-        <option value="mixed">מעורב — משתתפים באבלם של חברינו</option>
-        <option value="custom">אחר (הקלידו)...</option>
-      </select>
-    </div>
-    <div class="field" id="sym-solidarity-custom" style="display:none">
-      <input type="text" id="sym-solidarity-text" aria-label="נוסח השתתפות מותאם" maxlength="60" placeholder="הקלידו את הנוסח...">
-    </div>
-    <div class="field">
-      <label>שם החבר/ה <span class="req">*</span></label>
-      <input type="text" id="sym-member-name" maxlength="40" placeholder="שם מלא">
-      <div class="err-msg" id="sym-name-err">שדה חובה</div>
-    </div>
-
-    <div class="sec">קרבה משפחתית</div>
-    <div class="field">
-      <label>הנפטר/ת הוא/היא ה...</label>
-      <select id="sym-relation-sel" aria-label="קרבה משפחתית" onchange="handleSymRelationSel()">
-        <option value="אביו">אביו</option>
-        <option value="אמו">אמו</option>
-        <option value="אחיו">אחיו</option>
-        <option value="אחותו">אחותו</option>
-        <option value="בעלה">בעלה</option>
-        <option value="אשתו">אשתו</option>
-        <option value="בנו">בנו</option>
-        <option value="בתו">בתו</option>
-        <option value="custom">אחר (הקלידו)...</option>
-      </select>
-    </div>
-    <div class="field" id="sym-relation-custom" style="display:none">
-      <input type="text" id="sym-relation-text" aria-label="קרבה משפחתית מותאמת" maxlength="30" placeholder="ניתן להקליד כאן">
-    </div>
-
-    <div class="sec">פרטי הנפטר/ת</div>
-    <div class="field">
-      <label>כינוי/תואר <span style="color:var(--muted);font-weight:400">(אופציונלי)</span></label>
-      <input type="text" id="sym-title" maxlength="30" placeholder='הרב, פרופ׳, הגברת...'>
-    </div>
-    <div class="field">
-      <label>שם הנפטר/ת <span class="req">*</span></label>
-      <input type="text" id="sym-deceased-name" maxlength="40" placeholder="שם מלא">
-      <div class="err-msg" id="sym-deceased-err">שדה חובה</div>
-    </div>
-    <div class="field">
-      <label>סיומת <span style="color:var(--muted);font-weight:400">(אופציונלי)</span></label>
-      <input type="text" id="sym-suffix" maxlength="20" placeholder='ע"ה / זצ"ל / ז"ל'>
-    </div>
-
-    <div class="sec">פרטי ההלוויה</div>
-    <div class="field">
-      <label>תאריך ההלוויה</label>
-
-      <button type="button" id="sym-cal-trigger" onclick="openSymCal()"
-        style="width:100%;font-family:'Heebo',sans-serif;font-size:13px;padding:7px 9px;border:1px solid var(--border);border-radius:var(--radius);background:#fafaf8;color:var(--text);direction:rtl;text-align:right;cursor:pointer;">
-        📅 בחרו תאריך עברי
-      </button>
-      <input type="hidden" id="sym-funeral-date">
-      <div class="heb-preview" id="sym-heb-preview"></div>
-    </div>
-    <div class="row2">
-      <div class="field">
-        <label>שעה</label>
-        <input type="time" id="sym-funeral-time">
-      </div>
-      <div class="field" style="display:flex;align-items:flex-end">
-        <div class="heb-preview" id="sym-day-preview" style="font-size:14px;padding-bottom:2px"></div>
-      </div>
-    </div>
-    <div class="field">
-      <label>מיקום</label>
-      <select id="sym-funeral-loc-sel" aria-label="מיקום הלוויה" onchange="handleSymLocSel()">
-        <option value="">-- בחרו מיקום --</option>
-        <option value="בית העלמין בבית אל">בית העלמין בבית אל</option>
-        <option value="custom">אחר (הקלידו)...</option>
-      </select>
-    </div>
-    <div class="field" id="sym-funeral-loc-custom" style="display:none">
-      <textarea id="sym-funeral-loc" aria-label="מיקום הלוויה" maxlength="80" placeholder="ניתן להקליד כאן" rows="2" style="resize:none;font-family:inherit;line-height:1.4"></textarea>
-    </div>
-
-    <div class="sec">פרטי השבעה</div>
-    <div class="field">
-      <label>ניסוח שורת השבעה</label>
-      <select id="sym-shiva-phrase-sel" onchange="handleSymShivaPhraseChange()">
-        <option value="המשפחה יושבת שבעה">המשפחה יושבת שבעה (ברירת מחדל)</option>
-        <option value="יושב שבעה">יושב שבעה...</option>
-        <option value="יושבת שבעה">יושבת שבעה...</option>
-        <option value="יושבים שבעה">יושבים שבעה...</option>
-        <option value="יושבות שבעה">יושבות שבעה...</option>
-        <option value="custom">אחר (הקלידו)...</option>
-      </select>
-    </div>
-    <div class="field" id="sym-shiva-phrase-custom" style="display:none">
-      <input type="text" id="sym-shiva-phrase-text" maxlength="30" placeholder="ניסוח מותאם...">
-    </div>
-    <div class="field">
-      <label>כתובת</label>
-      <textarea id="sym-shiva-addr" maxlength="80" placeholder="ניתן להקליד כאן" rows="2" style="resize:none;font-family:inherit;line-height:1.4"></textarea>
-      <div style="font-size:10px;color:var(--muted);text-align:left;margin-top:2px">מקסימום שורה אחת</div>
-    </div>
-    <div class="field">
-      <label>זמני ניחום</label>
-      <input type="text" id="sym-shiva-hours" maxlength="80" placeholder="ניתן להקליד כאן">
-      <div style="font-size:10px;color:var(--muted);text-align:left;margin-top:2px">מקסימום שורה אחת</div>
-    </div>
-    <div class="field">
-      <label>זמני תפילות</label>
-      <input type="text" id="sym-shiva-prayers" maxlength="80" placeholder="ניתן להקליד כאן">
-      <div style="font-size:10px;color:var(--muted);text-align:left;margin-top:2px">מקסימום שורה אחת</div>
-    </div>
-
-    <div class="sec">שורת סיום</div>
-    <div class="field">
-      <textarea id="sym-closing" aria-label="שורת סיום" maxlength="200" placeholder="ניתן להקליד כאן" rows="3" style="resize:none;font-family:inherit;line-height:1.4"></textarea>
-      <div style="font-size:10px;color:var(--muted);text-align:left;margin-top:2px">מקסימום שורה אחת</div>
-    </div>
-
-  </div><!-- /tpl-sympathy-fields -->
+  
 
   <!-- ═══ TEMPLATE 3 FIELDS: resident obituary ═══ -->
-  <div id="tpl-resident-fields" style="display:none">
-
-    <div class="sec">שורת פתיחה</div>
-    <div class="field">
-      <select id="res-opening">
-        <option value="ברוך דיין האמת">ברוך דיין האמת</option>
-        <option value="custom">אחר (הקלידו)...</option>
-      </select>
-    </div>
-    <div class="field" id="res-custom-field" style="display:none">
-      <input type="text" id="res-custom-opening" aria-label="שורת פתיחה מותאמת" maxlength="44" placeholder="שורת פתיחה מותאמת...">
-    </div>
-
-    <div class="sec">פרטי הנפטר/ת</div>
-    <div class="field">
-      <label>מגדר הנפטר/ת</label>
-      <div style="display:flex;gap:16px;margin-top:4px">
-        <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer">
-          <input type="radio" name="res-gender" value="m" checked style="width:auto"> גבר
-        </label>
-        <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer">
-          <input type="radio" name="res-gender" value="f" style="width:auto"> אישה
-        </label>
-      </div>
-    </div>
-    <div class="field">
-      <label>כינוי/תואר <span style="color:var(--muted);font-weight:400">(אופציונלי)</span></label>
-      <input type="text" id="res-title" maxlength="30" placeholder='הרב, פרופ׳, הגברת...'>
-    </div>
-    <div class="field">
-      <label>שם הנפטר/ת <span class="req">*</span></label>
-      <input type="text" id="res-deceased-name" maxlength="40" placeholder="שם מלא">
-      <div class="err-msg" id="res-deceased-err">שדה חובה</div>
-    </div>
-    <div class="field">
-      <label>סיומת <span style="color:var(--muted);font-weight:400">(אופציונלי)</span></label>
-      <input type="text" id="res-suffix" maxlength="20" placeholder='ע"ה / זצ"ל / ז"ל'>
-    </div>
-
-    <div class="field">
-      <label>שורת ומשתתפת <span style="color:var(--muted);font-weight:400">(אופציונלי)</span></label>
-      <input type="text" id="res-mourners-prefix" aria-label="נוסח ומשתתפת" maxlength="30" value="ומשתתפת באבלה של"
-        style="margin-bottom:4px" placeholder="ומשתתפת באבלה של">
-      <input type="text" id="res-mourners" aria-label="שם המשפחה האבלה" maxlength="44" placeholder="שם המשפחה / טקסט חופשי">
-    </div>
-
-    <div class="sec">פרטי ההלוויה</div>
-    <div class="field">
-      <label>תאריך ההלוויה</label>
-
-      <button type="button" id="res-cal-trigger" onclick="openResCal()"
-        style="width:100%;font-family:'Heebo',sans-serif;font-size:13px;padding:7px 9px;border:1px solid var(--border);border-radius:var(--radius);background:#fafaf8;color:var(--text);direction:rtl;text-align:right;cursor:pointer;">
-        📅 בחרו תאריך עברי
-      </button>
-      <input type="hidden" id="res-funeral-date">
-      <div class="heb-preview" id="res-heb-preview"></div>
-    </div>
-    <div class="row2">
-      <div class="field">
-        <label>שעה</label>
-        <input type="time" id="res-funeral-time">
-      </div>
-      <div class="field" style="display:flex;align-items:flex-end">
-        <div class="heb-preview" id="res-day-preview" style="font-size:14px;padding-bottom:2px"></div>
-      </div>
-    </div>
-    <div class="field">
-      <label>מיקום</label>
-      <select id="res-funeral-loc-sel" aria-label="מיקום הלוויה" onchange="handleResLocSel()">
-        <option value="">-- בחרו מיקום --</option>
-        <option value="בית העלמין בבית אל">בית העלמין בבית אל</option>
-        <option value="custom">אחר (הקלידו)...</option>
-      </select>
-    </div>
-    <div class="field" id="res-funeral-loc-custom" style="display:none">
-      <textarea id="res-funeral-loc" aria-label="מיקום הלוויה" maxlength="80" placeholder="ניתן להקליד כאן" rows="2" style="resize:none;font-family:inherit;line-height:1.4"></textarea>
-    </div>
-
-    <div class="sec">פרטי השבעה</div>
-    <div class="field">
-      <label>ניסוח שורת השבעה</label>
-      <select id="res-shiva-phrase-sel" onchange="handleResShivaPhraseChange()">
-        <option value="המשפחה יושבת שבעה">המשפחה יושבת שבעה (ברירת מחדל)</option>
-        <option value="יושב שבעה">יושב שבעה...</option>
-        <option value="יושבת שבעה">יושבת שבעה...</option>
-        <option value="יושבים שבעה">יושבים שבעה...</option>
-        <option value="יושבות שבעה">יושבות שבעה...</option>
-        <option value="custom">אחר (הקלידו)...</option>
-      </select>
-    </div>
-    <div class="field" id="res-shiva-phrase-custom" style="display:none">
-      <input type="text" id="res-shiva-phrase-text" maxlength="30" placeholder="ניסוח מותאם...">
-    </div>
-    <div class="field">
-      <label>כתובת</label>
-      <textarea id="res-shiva-addr" maxlength="80" placeholder="ניתן להקליד כאן" rows="2" style="resize:none;font-family:inherit;line-height:1.4"></textarea>
-      <div style="font-size:10px;color:var(--muted);text-align:left;margin-top:2px">מקסימום שורה אחת</div>
-    </div>
-    <div class="field">
-      <label>זמני ניחום</label>
-      <input type="text" id="res-shiva-hours" maxlength="80" placeholder="ניתן להקליד כאן">
-      <div style="font-size:10px;color:var(--muted);text-align:left;margin-top:2px">מקסימום שורה אחת</div>
-    </div>
-    <div class="field">
-      <label>זמני תפילות</label>
-      <input type="text" id="res-shiva-prayers" maxlength="80" placeholder="ניתן להקליד כאן">
-      <div style="font-size:10px;color:var(--muted);text-align:left;margin-top:2px">מקסימום שורה אחת</div>
-    </div>
-
-    <div class="sec">שורת סיום</div>
-    <div class="field">
-      <textarea id="res-closing" aria-label="שורת סיום" maxlength="200" placeholder="ניתן להקליד כאן" rows="3" style="resize:none;font-family:inherit;line-height:1.4"></textarea>
-      <div style="font-size:10px;color:var(--muted);text-align:left;margin-top:2px">מקסימום שורה אחת</div>
-    </div>
-
-  </div><!-- /tpl-resident-fields -->
+  
 
 </div>
 
@@ -555,48 +308,7 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
     <div class="obit-publisher" id="p-publisher" style="display:none"></div>
       </div>
 
-      <!-- ═══ TEMPLATE 2: sympathy notice ═══ -->
-      <div id="tpl2-preview" style="display:none">
-        <div class="obit-opening" id="sp-opening">ברוך דיין האמת</div>
-        <div class="obit-sub" id="sp-sub-row" style="font-weight:700"><span id="sp-solidarity-phrase">משתתפים באבלו של חברנו</span> <span class="obit-inline-name" id="sp-member">שם החבר</span></div>
-        <div class="obit-sub" id="sp-relation-row" style="font-weight:400">בפטירת <span id="sp-relation">אביו/אמו</span></div>
-        <div class="obit-name-row">
-          <span class="obit-inline-title" id="sp-title" style="display:none"></span>
-          <span class="obit-name" id="sp-deceased">שם הנפטר/ת</span>
-          <span class="obit-inline-suffix" id="sp-suffix" style="display:none"></span>
-        </div>
-        <div class="obit-funeral" id="sp-funeral" style="display:none"></div>
-        <div class="obit-shiva-block" id="sp-shiva" style="display:none"></div>
-        <div class="obit-closing" id="sp-closing" style="display:none"></div>
-        <div class="obit-footer-row" id="sp-footer">
-          <span id="sp-foot-r" style="display:block;text-align:right">תושבי בית אל</span>
-          <span id="sp-foot-c" style="display:block;text-align:center">תנצב"ה</span>
-          <span id="sp-foot-l" style="display:block;text-align:left">מועצה מקומית בית אל</span>
-        </div>
-      </div>
-
-      <!-- ═══ TEMPLATE 3: resident obituary ═══ -->
-      <div id="tpl3-preview" style="display:none">
-        <div class="obit-opening" id="rp-opening">ברוך דיין האמת</div>
-        <div class="obit-sub" id="rp-sub" style="font-weight:700">משפחת בית אל אבלה בפטירתו של</div>
-        <div class="obit-name-row">
-          <span class="obit-inline-title" id="rp-title" style="display:none"></span>
-          <span class="obit-name" id="rp-deceased">שם הנפטר/ת</span>
-          <span class="obit-inline-suffix" id="rp-suffix" style="display:none"></span>
-        </div>
-        <div class="obit-sub" id="rp-mourners-row" style="display:none;font-weight:700"><span id="rp-mourners-prefix">ומשתתפת באבלה של</span> <span id="rp-mourners"></span></div>
-        <div class="obit-funeral" id="rp-funeral" style="display:none"></div>
-        <div class="obit-shiva-block" id="rp-shiva" style="display:none"></div>
-        <div class="obit-closing" id="rp-closing" style="display:none"></div>
-        <div class="obit-footer-row" id="rp-footer">
-          <span id="rp-foot-r" style="display:block;text-align:right">תושבי בית אל</span>
-          <span id="rp-foot-c" style="display:block;text-align:center">תנצב"ה</span>
-          <span id="rp-foot-l" style="display:block;text-align:left">מועצה מקומית בית אל</span>
-        </div>
-      </div>
-
-
-    </div>
+      
 
 
     </div>
@@ -644,31 +356,6 @@ header p{font-size:12px;color:var(--muted);margin-right:auto}
     <div class="cal-footer" style="justify-content:space-between">
       <button class="cal-fbtn" onclick="clearAllSaved()" style="color:#c0392b;border-color:#c0392b">🗑 מחק הכל</button>
       <button class="cal-fbtn primary" onclick="closeSaved()" aria-label="סגור">סגור</button>
-    </div>
-  </div>
-</div>
-
-<!-- INTERNAL MODAL -->
-<div class="cal-overlay" id="internal-overlay" role="dialog" aria-modal="true" aria-label="לשימוש פנימי" onclick="if(event.target===this)closeInternal()">
-  <div class="cal-box" style="width:340px">
-    <div class="cal-header">
-      <button class="cal-nav" onclick="closeInternal()" aria-label="סגור">✕</button>
-      <h3>🔐 לשימוש פנימי</h3>
-      <span></span>
-    </div>
-    <div style="padding:16px;direction:rtl;font-family:'Heebo',sans-serif">
-      <p style="font-size:13px;color:#555;margin-bottom:14px">תבניות אלו מיועדות לשימוש פנימי במחלקת דת</p>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <button onclick="closeInternal();requestPin('sympathy')" style="padding:12px;font-family:'Heebo',sans-serif;font-size:14px;font-weight:600;border:1.5px solid #ccc;border-radius:8px;background:#f7f5f0;cursor:pointer;text-align:right">
-          🔒 השתתפות באבל — קרוב משפחה של תושב
-        </button>
-        <button onclick="closeInternal();requestPin('resident')" style="padding:12px;font-family:'Heebo',sans-serif;font-size:14px;font-weight:600;border:1.5px solid #ccc;border-radius:8px;background:#f7f5f0;cursor:pointer;text-align:right">
-          🔒 השתתפות באבל — תושב הישוב
-        </button>
-      </div>
-    </div>
-    <div class="cal-footer">
-      <button class="cal-fbtn primary" onclick="closeInternal()" aria-label="סגור">סגור</button>
     </div>
   </div>
 </div>
@@ -1134,7 +821,7 @@ function saveCurrentNotice(){
 
   /* Collect all field values */
   var fields={};
-  ['opening','custom-opening','sub','name','obit-title','suffix','funeral-date','funeral-time','publisher-sel','publisher-text',
+  ['opening','custom-opening','sub','name','obit-title','suffix','funeral-date','funeral-time','funeral-manual','sym-funeral-manual','res-funeral-manual','publisher-sel','publisher-text',
    'funeral-loc','funeral-loc-sel','publisher-sel','publisher-text','shiva-phrase-sel','shiva-phrase-text','shiva-addr','shiva-hours','shiva-prayers','closing',
    'sym-opening','sym-custom-opening','sym-solidarity-sel','sym-solidarity-text','sym-member-name','sym-relation-sel','sym-relation-text',
    'sym-title','sym-deceased-name','sym-suffix','sym-funeral-date','sym-funeral-time',
@@ -1224,10 +911,19 @@ var DRAFT_KEY='obit_form_draft';
 function saveDraft(){
   try{
     var d={tpl:ACTIVE_TPL,fields:{},genders:{}};
-    ["opening", "custom-opening", "sub", "name", "obit-title", "suffix", "funeral-date", "funeral-time", "funeral-loc", "funeral-loc-sel", "shiva-addr", "shiva-hours", "shiva-prayers", "closing", "sym-opening", "sym-custom-opening", "sym-member-name", "sym-relation-sel", "sym-relation-text", "sym-title", "sym-deceased-name", "sym-suffix", "sym-funeral-date", "sym-funeral-time", "sym-funeral-loc", "sym-funeral-loc-sel", "sym-shiva-addr", "sym-shiva-hours", "sym-shiva-prayers", "sym-closing", "res-opening", "res-custom-opening", "res-title", "res-deceased-name", "res-suffix", "res-mourners-prefix", "res-mourners", "res-funeral-date", "res-funeral-time", "res-funeral-loc", "res-funeral-loc-sel", "res-shiva-addr", "res-shiva-hours", "res-shiva-prayers", "res-closing"].forEach(function(id){var el=v(id);if(el)d.fields[id]=el.value;});
+    ["opening", "custom-opening", "sub", "name", "obit-title", "suffix", "funeral-date", "funeral-time", "funeral-loc", "funeral-loc-sel", "shiva-addr", "shiva-hours", "shiva-prayers", "closing", "sym-opening", "sym-custom-opening", "sym-member-name", "sym-relation-sel", "sym-relation-text", "sym-title", "sym-deceased-name", "sym-suffix", "sym-funeral-date", "sym-funeral-time", "sym-funeral-loc", "sym-funeral-loc-sel", "sym-shiva-addr", "sym-shiva-hours", "sym-shiva-prayers", "sym-closing", "res-opening", "res-custom-opening", "res-title", "res-deceased-name", "res-suffix", "res-mourners-prefix", "res-mourners", "res-funeral-date", "res-funeral-time", "res-funeral-loc", "res-funeral-loc-sel", "res-shiva-addr", "res-shiva-hours", "res-shiva-prayers", "res-closing",
+      "shiva-phrase-sel", "shiva-phrase-text",
+      "sym-shiva-phrase-sel", "sym-shiva-phrase-text",
+      "res-shiva-phrase-sel", "res-shiva-phrase-text",
+      "funeral-manual", "sym-funeral-manual", "res-funeral-manual",
+      "publisher-sel", "publisher-text",
+      "sym-solidarity-sel", "sym-solidarity-text"].forEach(function(id){var el=v(id);if(el)d.fields[id]=el.value;});
     d.genders.gender=(document.querySelector('input[name="gender"]:checked')||{}).value||'m';
-    d.genders['sym-gender']=(document.querySelector('input[name="sym-gender"]:checked')||{}).value||'m';
     d.genders['res-gender']=(document.querySelector('input[name="res-gender"]:checked')||{}).value||'m';
+    /* Save checkboxes */
+    ['funeral-past','sym-funeral-past','res-funeral-past'].forEach(function(id){
+      var el=v(id);if(el)d.fields[id]=el.checked?'1':'0';
+    });
     localStorage.setItem(DRAFT_KEY,JSON.stringify(d));
   }catch(e){}
 }
@@ -1262,6 +958,18 @@ function restoreDraft(){
     /* Also re-open custom opening/relation fields */
     if(v('opening')&&v('opening').value==='custom')v('custom-field').style.display='';
     if(v('publisher-sel')&&v('publisher-sel').value==='custom')v('publisher-custom').style.display='';
+    /* Restore checkboxes */
+    ['funeral-past','sym-funeral-past','res-funeral-past'].forEach(function(id){
+      var el=v(id);if(el&&d.fields&&d.fields[id])el.checked=d.fields[id]==='1';
+    });
+    /* Restore shiva phrase custom fields */
+    ['shiva-phrase-sel','sym-shiva-phrase-sel','res-shiva-phrase-sel'].forEach(function(id){
+      var el=v(id);if(el&&d.fields&&d.fields[id]){el.value=d.fields[id];if(el.value==='custom'){var cid=id.replace('-sel','-custom');var cel=v(cid);if(cel)cel.style.display='';}}
+    });
+    /* Restore manual funeral fields */
+    ['funeral-manual','sym-funeral-manual','res-funeral-manual'].forEach(function(id){
+      var el=v(id);if(el&&d.fields&&d.fields[id]){el.value=d.fields[id];if(d.fields[id].trim()){var fid=id+'-field';var fel=v(fid);if(fel)fel.style.display='';}}
+    });
     if(v('sym-solidarity-sel')&&v('sym-solidarity-sel').value==='custom'){var sc=v('sym-solidarity-custom');if(sc)sc.style.display='';}
     handleLocSel();
     handleSymLocSel();
@@ -1275,7 +983,7 @@ function restoreDraft(){
 function clearForm(){
   /* Clear all text/time/hidden inputs */
   ['opening','custom-opening','sub','name','obit-title','suffix',
-   'funeral-date','funeral-time','funeral-loc','funeral-loc-sel',
+   'funeral-date','funeral-time','funeral-manual','sym-funeral-manual','res-funeral-manual','funeral-loc','funeral-loc-sel',
    'shiva-phrase-sel','shiva-phrase-text','shiva-addr','shiva-hours','shiva-prayers',
    'publisher-sel','publisher-text','closing',
    'sym-opening','sym-custom-opening','sym-member-name','sym-relation-sel',
@@ -1331,35 +1039,38 @@ function distributeSpace(){
   var preview=document.getElementById(tplId);
   if(!preview)return;
 
+  /* Reset gap first */
+  preview.style.gap='';
+
   /* Inner usable height: 793 - 40(border) - 28(pad-top) - 70(pad-bottom) = 655px */
   var totalH=655;
 
-  /* Footer row height */
   var footer=document.querySelector('.obit-footer-row');
   var footerH=footer?footer.offsetHeight:50;
 
-  /* Publisher: absolute positioned - subtract from available space */
   var publisher=document.getElementById('p-publisher');
   var publisherH=(publisher&&publisher.textContent.trim())?publisher.offsetHeight+8:0;
 
-  /* Available for content */
   var availH=totalH-footerH-publisherH-10;
 
-  /* Measure content elements */
+  /* Only count elements that have VISIBLE content */
   var contentEls=Array.from(preview.querySelectorAll(
     '.obit-opening,.obit-sub,.obit-name-row,.obit-funeral,.obit-shiva-block,.obit-closing'
-  )).filter(function(el){return el.offsetHeight>0;});
+  )).filter(function(el){
+    return el.offsetHeight>0 && el.textContent.trim()!=='';
+  });
 
   if(!contentEls.length)return;
 
   var contentH=contentEls.reduce(function(sum,el){return sum+el.offsetHeight;},0);
   var gaps=contentEls.length-1;
   var remaining=availH-contentH;
-  var twoLines=120; /* 3 lines worth of space */
 
-  if(remaining<=twoLines||gaps<=0)return;
+  /* Only distribute if there's meaningful space (more than 2 average line heights) */
+  var avgLine=contentH/contentEls.length;
+  if(remaining<=avgLine*2||gaps<=0)return;
 
-  var newGap=Math.min(remaining/gaps,30);
+  var newGap=Math.min(remaining/gaps,40);
   preview.style.gap=newGap+'px';
 }
 
@@ -1409,6 +1120,19 @@ function installPWA(){
   if(!deferredPrompt)return;
   deferredPrompt.prompt();
   deferredPrompt.userChoice.then(function(){deferredPrompt=null;});
+}
+
+function toggleFuneralManual(pfx){
+  var fieldId=pfx?pfx+'-funeral-manual-field':'funeral-manual-field';
+  var field=v(fieldId);
+  if(!field)return;
+  var isOpen=field.style.display!=='none';
+  field.style.display=isOpen?'none':'';
+  if(!isOpen){
+    var inp=v(pfx?pfx+'-funeral-manual':'funeral-manual');
+    if(inp)inp.focus();
+  }
+  update();
 }
 
 function openInternal(){document.getElementById('internal-overlay').classList.add('open');}
@@ -1713,6 +1437,8 @@ function update(){
       if(resFTime)ln3+=', בשעה '+resFTime;
       resFl.push(ln3);}
     if(resLoc)resFl.push(resLoc);
+    var resManual=v('res-funeral-manual')?v('res-funeral-manual').value.trim():'';
+    if(resManual)resFl=[resManual];
     showLines('rp-funeral','obit-funeral-line',resFl);
 
     var resSl=[];
@@ -1730,83 +1456,7 @@ function update(){
   var activePrevEl=document.getElementById({'personal':'tpl1-preview','sympathy':'tpl2-preview','resident':'tpl3-preview'}[ACTIVE_TPL]||'tpl1-preview');
   if(activePrevEl)activePrevEl.style.gap='';
   saveDraft();
-  /* ── TEMPLATE 2: sympathy notice ── */
-  if(v('sym-member-name')){
-    var symOpenV=v('sym-opening').value;
-    v('sym-custom-field').style.display=symOpenV==='custom'?'':'none';
-    var symOpening=symOpenV==='custom'?v('sym-custom-opening').value.trim():symOpenV;
-
-    var memberName=v('sym-member-name').value.trim()||'שם החבר/ה';
-
-    // Solidarity phrase from dropdown
-    var solSel=v('sym-solidarity-sel')?v('sym-solidarity-sel').value:'m_single';
-    var solidarityPhrase=solSel==='custom'?(v('sym-solidarity-text')?v('sym-solidarity-text').value.trim():'משתתפים באבלו של חברנו'):(SYM_SOLIDARITY_MAP[solSel]||'משתתפים באבלו של חברנו');
-
-    var relSel=v('sym-relation-sel');
-    var relVal=relSel?relSel.value:'';
-    var relation=relVal==='custom'?(v('sym-relation-text').value.trim()||'קרובו'):relVal;
-
-    var deceasedName=v('sym-deceased-name').value.trim()||'שם הנפטר/ת';
-    var symSuffix=v('sym-suffix').value.trim();
-
-    var symTitle=v('sym-title')?v('sym-title').value.trim():'';
-    var symFDate=v('sym-funeral-date').value;
-    var symFTime=v('sym-funeral-time')?v('sym-funeral-time').value:'';
-    var symLocSel=document.getElementById('sym-funeral-loc-sel');
-    var symLoc=symLocSel&&symLocSel.value==='custom'?(v('sym-funeral-loc')?v('sym-funeral-loc').value.trim():''):
-               (symLocSel&&symLocSel.value?symLocSel.value:'');
-    var symShivaAddr=v('sym-shiva-addr')?v('sym-shiva-addr').value.trim():'';
-    var symShivaHours=v('sym-shiva-hours')?v('sym-shiva-hours').value.trim():'';
-    var symPrayers=v('sym-shiva-prayers').value.trim();
-    var symClosing=v('sym-closing')?v('sym-closing').value.trim():'';
-
-    v('sym-heb-preview').textContent=fmtHD(symFDate);
-    v('sym-day-preview').textContent=fmtWD(symFDate);
-
-    v('sp-opening').textContent=symOpening;
-    v('sp-solidarity-phrase').textContent=solidarityPhrase;
-    v('sp-member').textContent=memberName;
-    setTimeout(fitSubRow,0);
-    v('sp-relation').textContent=relation;
-    /* Reset sub row font before shrink check */
-    if(document.getElementById('sp-sub-row'))document.getElementById('sp-sub-row').style.fontSize='42px';
-    if(document.getElementById('sp-member'))document.getElementById('sp-member').style.fontSize='80px';
-    setTimeout(fitSubRow,10);
-    showI('sp-title',symTitle);
-    v('sp-deceased').textContent=(deceasedName&&deceasedName.length>0)?deceasedName:'שם הנפטר/ת';
-    showI('sp-suffix',symSuffix);
-
-    /* Funeral lines - same logic as template 1 */
-    var symFl=[];
-    if(symFDate){
-      var now2=new Date(),fd2=new Date(symFDate+(symFTime?'T'+symFTime+':00':'T23:59:59'));
-      var symPastChk=v('sym-funeral-past')&&v('sym-funeral-past').checked;
-      var past2=symPastChk||fd2<now2;
-      var ln2=(past2?'ההלוויה התקיימה ב':'הלוויה תתקיים ב')+fmtWD(symFDate)+', '+fmtHD(symFDate);
-      if(symFTime)ln2+=', בשעה '+symFTime;
-      symFl.push(ln2);}
-    if(symLoc)symFl.push(symLoc);
-    showLines('sp-funeral','obit-funeral-line',symFl);
-
-    var symSl=[];
-    var symShivaPhrase=getSymShivaPhrase();
-    var symShivaSel=v('sym-shiva-phrase-sel');
-    var isCustomPhrase=symShivaSel&&symShivaSel.value==='custom';
-    if(isCustomPhrase&&symShivaPhrase&&!symShivaAddr){
-      /* Custom phrase with no address - show phrase alone */
-      symSl.push(symShivaPhrase);
-    } else if(symShivaAddr){
-      symSl.push(symShivaPhrase+' '+symShivaAddr);
-    }
-    if(symShivaHours)symSl.push('זמני ניחום: '+symShivaHours);
-    if(symPrayers)symSl.push('זמני תפילות: '+symPrayers);
-    showLines('sp-shiva','obit-shiva-line',symSl);
-
-    show('sp-closing',symClosing);
-
-    setTimeout(fitNameRow,0);
-
-  }
+  
 }
 
 // ── SCALE ──
@@ -2187,7 +1837,7 @@ function submitContact(){
 // ── INIT ──
 document.addEventListener('DOMContentLoaded',function(){
   ['opening','custom-opening','sub','name','obit-title','suffix',
-   'funeral-date','funeral-time','funeral-loc','funeral-loc-sel',
+   'funeral-date','funeral-time','funeral-manual','sym-funeral-manual','res-funeral-manual','funeral-loc','funeral-loc-sel',
    'shiva-phrase-sel','shiva-phrase-text','shiva-addr','shiva-hours','shiva-prayers','closing',
    'sym-opening','sym-custom-opening','sym-solidarity-sel','sym-solidarity-text','sym-member-name','sym-relation-sel','sym-relation-text',
    'sym-title','sym-deceased-name','sym-suffix','sym-funeral-date','sym-funeral-time',
